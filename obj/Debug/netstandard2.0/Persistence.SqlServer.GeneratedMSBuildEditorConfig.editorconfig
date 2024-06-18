@@ -1,5 +1,3 @@
 is_global = true
 build_property.RootNamespace = Persistence.SqlServer
-build_property.ProjectDir = D:\Projects\eCommerce Platform\Persistence\
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.ProjectDir = D:\Projects\Persistence.SqlServer\

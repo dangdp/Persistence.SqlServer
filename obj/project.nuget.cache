@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "R6jhIn8vMy9WMBCcXTFYbKBahq+rLiEIHX2zrd3yEbDYSru7KVQQ5mt+GMI9Jh9pWRQUs9PR6qTFBh9PpRFYvQ==",
+  "dgSpecHash": "11oDs4Uo2jO2bdSq5jUCa+Dd0mKLQ+ypCNdrVyg04eT83CH2eaoC7BbFuyD8Y15Yzq1D28dYYJyImY511eaKow==",
   "success": true,
-  "projectFilePath": "D:\\Projects\\eCommerce Platform\\Persistence\\Persistence.SqlServer.csproj",
+  "projectFilePath": "D:\\Projects\\Persistence.SqlServer\\Persistence.SqlServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dangd\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\dangd\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
