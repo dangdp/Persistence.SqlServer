@@ -652,7 +652,7 @@ namespace Persistence.SqlServer
             }
             if (IsList(valueModel))
             {
-                var values = (IList<object>) valueModel;
+                var values = (IEnumerable) valueModel;
                 var dataTable = new DataTable();
                 var hasData = false;
                 bool? hasProperties = null;

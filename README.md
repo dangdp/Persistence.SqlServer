@@ -84,9 +84,13 @@ using (var connection = new SqlConnection("Data Source=localhost\\SQLEXPRESS01;D
     Console.WriteLine(@$"Search Products: {searchProducts2.Count()} - {stopWatch.ElapsedMilliseconds}ms");
 
 
+
     //Execute Store Procedure
-    var items = await productRep.QueryAsync<Product>("sp_Inventory_StoreTest1",
-        new { ProductNames = new List<string>() { "a", "b", "c" } });
+    stopWatch.Start();
+    var items = await productRep.QueryAsync<Product>("sp_Inventory_StoreTest1", 
+        new { ProductNames = new List<string>() { "1 ProductName", "2 ProductName"} });
+    stopWatch.Stop();
+    Console.WriteLine(@$"Total Exec Procedure: {items.Count()} - {stopWatch.ElapsedMilliseconds}ms");
 
 
     stopWatch.Start();
@@ -120,5 +124,19 @@ using (var connection = new SqlConnection("Data Source=localhost\\SQLEXPRESS01;D
 }
 
 
+```
 
+Store Procedure
+```
+CREATE PROCEDURE sp_Inventory_StoreTest1
+	@ProductNames [type_StringList] READONLY
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT * from Products (NOLOCK) where ProductName IN (SELECT [Value] FROM @ProductNames)
+END
 ```

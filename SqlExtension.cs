@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -750,7 +751,7 @@ namespace Persistence.SqlServer
 
 
 
-                        var values = value as IList<object>;
+                        var values = (IEnumerable) value;
                         var conditions = new List<string>();
                         string referenceType = null;
                         //With dynamic type we cannot use first or default
@@ -827,7 +828,7 @@ namespace Persistence.SqlServer
                     var expression = arrayExpress as MemberExpression;
                     var model = Expression.Lambda(arrayExpress).Compile().DynamicInvoke();
 
-                    var values = model as IList<object>;
+                    var values = (IEnumerable)model;
                     var conditions = new List<string>();
                     string referenceType = null;
                     //With dynamic type we cannot use first or default
