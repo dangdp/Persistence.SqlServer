@@ -1,6 +1,6 @@
-Bulk Insert: 100,000 records - Around ~1000ms
-Bulk Update: 100,000 records - Around ~1200ms
-Complex Update: 100,000 records - Around ~3200ms
+>Bulk Insert: 100,000 records - Around ~1000ms
+>Bulk Update: 100,000 records - Around ~1200ms
+>Complex Update: 100,000 records - Around ~3200ms
 
 Entity:
 ```
@@ -43,63 +43,82 @@ Run Code:
 
 
 ```
-	using Persistence.SqlServer.Test;
-	var products = new List<Product>();
-	for (var i = 0; i < 100000; i++)
-	{
-		products.Add(new Product()
-		{
-			Id = Guid.NewGuid(),
-			BarCode = i + " BarCode",
-			ProductCode = i + " ProductCode",
-			ProductName = i + " ProductName",
-			CreatedDate = DateTime.Now,
-		});
-	}
+// See https://aka.ms/new-console-template for more information
+using Persistence.SqlServer.Test;
+using System.Data.SqlClient;
+using System.Diagnostics;
+var products = new List<Product>();
+for (var i = 0; i < 100000; i++)
+{
+    products.Add(new Product()
+    {
+        Id = Guid.NewGuid(),
+        BarCode = i + " BarCode",
+        ProductCode = i + " ProductCode",
+        ProductName = i + " ProductName",
+        CreatedDate = DateTime.Now,
+    });
+}
+
+using (var connection = new SqlConnection("Data Source=localhost\\SQLEXPRESS01;Database=TestDB;Trusted_Connection=True;;MultipleActiveResultSets=True;"))
+{
+    var productRep = new ProductRepository(connection);
+
+    var stopWatch = new Stopwatch();
+    stopWatch.Start();
+    await productRep.BulkInsertAsync(products).ConfigureAwait(false);
+    stopWatch.Stop();
+    Console.WriteLine(@$"Bulk Insert Product: {products.Count()} - {stopWatch.ElapsedMilliseconds}ms");
 
 
+    stopWatch.Start();
+    var searchProducts = await productRep.WhereAsync(x => x.ProductName.Contains("100")).ConfigureAwait(false);
+    stopWatch.Stop();
+    Console.WriteLine(@$"Search Products: {searchProducts.Count()} - {stopWatch.ElapsedMilliseconds}ms");
 
 
-	using(var connection = new  SqlConnection("Data Source=localhost\\SQLEXPRESS01;Database=TestDB;Trusted_Connection=True;;MultipleActiveResultSets=True;"))
-	{
-		var productRep = new ProductRepository(connection);
-
-		var stopWatch = new Stopwatch();
-		stopWatch.Start();
-		await productRep.BulkInsertAsync(products).ConfigureAwait(false);
-		stopWatch.Stop();
-		Console.WriteLine(@$"Bulk Insert Product: {products.Count()} - {stopWatch.ElapsedMilliseconds}ms" );
+    stopWatch.Start();
+    var productNames = new List<string>() { "a", "b", "c" };
+    var searchProducts2 = await productRep.WhereAsync(x => productNames.Contains(x.ProductName)).ConfigureAwait(false);
+    stopWatch.Stop();
+    Console.WriteLine(@$"Search Products: {searchProducts2.Count()} - {stopWatch.ElapsedMilliseconds}ms");
 
 
+    //Execute Store Procedure
+    var items = await productRep.QueryAsync<Product>("sp_Inventory_StoreTest1",
+        new { ProductNames = new List<string>() { "a", "b", "c" } });
 
 
-		stopWatch.Start();
-		await productRep.BulkUpdateAsync(products, x => x.ProductName, x => x.ProductCode, x => x.BarCode).ConfigureAwait(false);
-		stopWatch.Stop();
+    stopWatch.Start();
+    await productRep.BulkUpdateAsync(products, x => x.ProductName, x => x.ProductCode, x => x.BarCode).ConfigureAwait(false);
+    stopWatch.Stop();
 
 
-		Console.WriteLine(@$"Bulk Update Product: {products.Count()} - {stopWatch.ElapsedMilliseconds}ms");
+    Console.WriteLine(@$"Bulk Update Product: {products.Count()} - {stopWatch.ElapsedMilliseconds}ms");
 
-		stopWatch.Start();
-		await productRep.BeginBulkAsync().ConfigureAwait(false);
-		for (var i = 0; i < 100000; i++)
-		{
-			var product = products[i];
-			if (i % 2 == 0)
-			{
-				product.ProductName += $" {i} % 2 = 0";
-				productRep.Update(product, x => x.ProductName);
-			} else
-			{
-				product.ProductCode += $" {i} % 2 != 0";
-				productRep.Update(product, x => x.ProductCode);
-			}
-		   
-		}
-		await productRep.EndBulkAsync().ConfigureAwait(false);
-		stopWatch.Stop();
+    stopWatch.Start();
+    await productRep.BeginBulkAsync().ConfigureAwait(false);
+    for (var i = 0; i < 100000; i++)
+    {
+        var product = products[i];
+        if (i % 2 == 0)
+        {
+            product.ProductName += $" {i} % 2 = 0";
+            productRep.Update(product, x => x.ProductName);
+        }
+        else
+        {
+            product.ProductCode += $" {i} % 2 != 0";
+            productRep.Update(product, x => x.ProductCode);
+        }
 
-		Console.WriteLine(@$"Complex Bulk Update Product: {products.Count()} - {stopWatch.ElapsedMilliseconds}ms");
-	}
+    }
+    await productRep.EndBulkAsync().ConfigureAwait(false);
+    stopWatch.Stop();
+
+    Console.WriteLine(@$"Complex Bulk Update Product: {products.Count()} - {stopWatch.ElapsedMilliseconds}ms");
+}
+
+
 
 ```
