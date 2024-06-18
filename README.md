@@ -1,10 +1,9 @@
+Bulk Insert: 100,000 records - Around ~1000ms
+Bulk Update: 100,000 records - Around ~1200ms
+Complex Update: 100,000 records - Around ~3200ms
+
 Entity:
-
-
-
-
-
-{
+```
 	public class Product : IEntity
 	{
 		public Guid Id { get; set; }
@@ -17,14 +16,14 @@ Entity:
 
 		public DateTime? CreatedDate { get; set; }
 	}
-}
+```
 
 Repository:
 
 
 
 
-{
+```
 	[Configuration(TableName = "Products")]
     public class ProductRepository : SqlServerRepository<Product>
     {
@@ -34,7 +33,7 @@ Repository:
         }
     }
 }
-
+```
 
 
 
@@ -43,7 +42,7 @@ Run Code:
 
 
 
-{
+```
 	using Persistence.SqlServer.Test;
 	var products = new List<Product>();
 	for (var i = 0; i < 100000; i++)
@@ -70,6 +69,7 @@ Run Code:
 		await productRep.BulkInsertAsync(products).ConfigureAwait(false);
 		stopWatch.Stop();
 		Console.WriteLine(@$"Bulk Insert Product: {products.Count()} - {stopWatch.ElapsedMilliseconds}ms" );
+
 
 
 
@@ -102,4 +102,4 @@ Run Code:
 		Console.WriteLine(@$"Complex Bulk Update Product: {products.Count()} - {stopWatch.ElapsedMilliseconds}ms");
 	}
 
-}
+```
