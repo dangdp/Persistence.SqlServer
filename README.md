@@ -1,4 +1,9 @@
 Entity:
+
+
+
+
+
 {
 	public class Product : IEntity
 	{
@@ -15,6 +20,10 @@ Entity:
 }
 
 Repository:
+
+
+
+
 {
 	[Configuration(TableName = "Products")]
     public class ProductRepository : SqlServerRepository<Product>
@@ -26,7 +35,14 @@ Repository:
     }
 }
 
+
+
+
 Run Code:
+
+
+
+
 {
 	using Persistence.SqlServer.Test;
 	var products = new List<Product>();
