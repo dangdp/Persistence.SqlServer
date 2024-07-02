@@ -347,7 +347,7 @@ namespace Persistence.SqlServer
             return items;
         }
 
-        protected async Task<IEnumerable<T>> QueryAsync<T>(Expression<Func<T, bool>> predicate, Type repoType, bool checkAlive = false) where T : IEntity
+        public async Task<IEnumerable<T>> QueryAsync<T>(Expression<Func<T, bool>> predicate, Type repoType, bool checkAlive = false) where T : IEntity
         {
             var query = this.BuildQueryString(predicate, repoType, checkAlive);
 
@@ -359,7 +359,7 @@ namespace Persistence.SqlServer
             return items;
         }
 
-        protected async Task<IEnumerable<TOut>> QueryAsync<T, TOut>(Expression<Func<T, bool>> predicate, Type repoType, bool checkAlive = false) where T : IEntity
+        public async Task<IEnumerable<TOut>> QueryAsync<T, TOut>(Expression<Func<T, bool>> predicate, Type repoType, bool checkAlive = false) where T : IEntity
         {
             var query = this.BuildQueryString(predicate, repoType, checkAlive);
 
@@ -371,7 +371,7 @@ namespace Persistence.SqlServer
             return items;
         }
 
-        protected async Task<IEnumerable<TOut>> QueryAsync<T, TOut>(Expression<Func<T, bool>> predicate, Type repoType, bool checkAlive = false, Expression<Func<T, object>> column = null) where T : IEntity
+        public async Task<IEnumerable<TOut>> QueryAsync<T, TOut>(Expression<Func<T, bool>> predicate, Type repoType, bool checkAlive = false, Expression<Func<T, object>> column = null) where T : IEntity
         {
             var query = this.BuildQueryString(predicate, repoType, checkAlive);
 
@@ -388,7 +388,7 @@ namespace Persistence.SqlServer
             return items;
         }
 
-        protected T FirstOrDefault<T>(Expression<Func<T, bool>> predicate, Type repoType, bool checkAlive = false) where T : IEntity
+        public T FirstOrDefault<T>(Expression<Func<T, bool>> predicate, Type repoType, bool checkAlive = false) where T : IEntity
         {
             var query = this.BuildQueryString(predicate, repoType, checkAlive);
 
@@ -402,7 +402,7 @@ namespace Persistence.SqlServer
 
         private const string IsDeletedPropertyName = "IsDeleted";
 
-        protected async Task<T> FirstOrDefaultAsync<T>(Expression<Func<T, bool>> predicate, Type repoType, bool checkAlive = false) where T : IEntity
+        public async Task<T> FirstOrDefaultAsync<T>(Expression<Func<T, bool>> predicate, Type repoType, bool checkAlive = false) where T : IEntity
         {
             var query = this.BuildQueryString(predicate, repoType, checkAlive);
 
@@ -414,7 +414,7 @@ namespace Persistence.SqlServer
             return items.FirstOrDefault();
         }
 
-        protected T FirstOrDefault<T>(string storeProcedure, object param = null)
+        public T FirstOrDefault<T>(string storeProcedure, object param = null)
         {
             var sqlParameters = this.BuildParameters(storeProcedure, param, CommandType.StoredProcedure);
 
@@ -436,7 +436,7 @@ namespace Persistence.SqlServer
             }
         }
 
-        protected async Task<T> FirstOrDefaultAsync<T>(string storeProcedure, object param = null)
+        public async Task<T> FirstOrDefaultAsync<T>(string storeProcedure, object param = null)
         {
             var sqlParameters = this.BuildParameters(storeProcedure, param, CommandType.StoredProcedure);
 
@@ -814,7 +814,7 @@ namespace Persistence.SqlServer
             return false;
         }
 
-        protected async Task BulkUpdateAsync<T>(IEnumerable<T> models, Type repoType, string[] updatedProperties) where T : IEntity
+        public async Task BulkUpdateAsync<T>(IEnumerable<T> models, Type repoType, string[] updatedProperties) where T : IEntity
         {
 
             if (ReflectToSingleUpdate(models, repoType, updatedProperties))

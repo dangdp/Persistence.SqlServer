@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\Persistence.SqlServer\\Persistence.SqlServer.csproj": {}
+    "D:\\Projects\\Persistence\\Persistence.SqlServer\\Persistence.SqlServer.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\Persistence.SqlServer\\Persistence.SqlServer.csproj": {
-      "version": "1.0.0",
+    "D:\\Projects\\Persistence\\Persistence.SqlServer\\Persistence.SqlServer.csproj": {
+      "version": "1.0.0.3",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Persistence.SqlServer\\Persistence.SqlServer.csproj",
-        "projectName": "Persistence.SqlServer",
-        "projectPath": "D:\\Projects\\Persistence.SqlServer\\Persistence.SqlServer.csproj",
+        "projectUniqueName": "D:\\Projects\\Persistence\\Persistence.SqlServer\\Persistence.SqlServer.csproj",
+        "projectName": "DangDP.Persistence.SqlServer",
+        "projectPath": "D:\\Projects\\Persistence\\Persistence.SqlServer\\Persistence.SqlServer.csproj",
         "packagesPath": "C:\\Users\\dangd\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Persistence.SqlServer\\obj\\",
+        "outputPath": "D:\\Projects\\Persistence\\Persistence.SqlServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
